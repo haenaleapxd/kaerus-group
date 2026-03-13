@@ -1,0 +1,8 @@
+name: kaerus-group
+recipe: pantheon
+config:
+  framework: wordpress
+  site: kaerus-group
+  id: 4a7e5692-4350-4de5-a27f-0e0ba3a52a36
+excludes:
+  - wp-content/themes/kaerus-group/node_modules

@@ -1,0 +1,7 @@
+.xd-flyout {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary) rgb(0, 0, 0, 0);
+    overflow: auto;
+  }
+}

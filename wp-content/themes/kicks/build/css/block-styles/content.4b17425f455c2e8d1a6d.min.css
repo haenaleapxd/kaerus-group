@@ -1,0 +1,3 @@
+.xd-content{flex-wrap:nowrap}.xd-content.xd-height-auto{height:auto}.xd-content.xd-height-stretch{flex:1;overflow:hidden}.xd-content.xd-height-stretch .xd-content__inner:has(.xd-image:only-child){height:100%}.xd-content:where(:not(.xd-height-auto,.xd-height-stretch)){height:var(--xd-height-custom)}
+
+/*# sourceMappingURL=content.4b17425f455c2e8d1a6d.min.css.map*/

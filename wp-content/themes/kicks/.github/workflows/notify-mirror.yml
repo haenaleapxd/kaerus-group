@@ -1,0 +1,29 @@
+name: Notify WordPress mirror
+
+on:
+  push:
+    branches: [ master ]   # trigger only when master changes
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify LeapXD/Wordpress
+        env:
+          TOKEN: ${{ secrets.MIRROR_DISPATCH_TOKEN }}
+          DEST_REPO: LeapXD/Wordpress
+        run: |
+          set -euo pipefail
+          curl -sS -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${TOKEN}" \
+            "https://api.github.com/repos/${DEST_REPO}/dispatches" \
+            -d @- <<JSON
+          {
+            "event_type": "mirror_push",
+            "client_payload": {
+              "repo": "${{ github.repository }}",
+              "ref":  "master"
+            }
+          }
+          JSON

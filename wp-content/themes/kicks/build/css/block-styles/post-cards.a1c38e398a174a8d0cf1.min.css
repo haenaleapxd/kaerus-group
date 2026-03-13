@@ -1,0 +1,3 @@
+.xd-post-cards .row{row-gap:10px}@media all and (min-width: 768px){.xd-post-cards .row{row-gap:20px}}@media all and (min-width: 768px)and (max-width: 1199px){.xd-post-cards--posts .xd-post-card:nth-child(odd):last-child{display:none}}
+
+/*# sourceMappingURL=post-cards.a1c38e398a174a8d0cf1.min.css.map*/

@@ -1,0 +1,12 @@
+@use "../mixins/" as *;
+
+.xd-button,
+input[type="button"],
+input[type="submit"] {
+  border-radius: 30px;
+  min-width: 18ch;
+}
+
+.xd-button--text {
+  min-width: 0;
+}
