@@ -9,6 +9,15 @@ class GF_Field_CreditCard extends GF_Field {
 
 	public $type = 'creditcard';
 
+	/**
+	 * Indicates the field is used to capture payments.
+	 *
+	 * @since 2.9.23
+	 *
+	 * @var bool
+	 */
+	public $is_payment = true;
+
 	public function get_form_editor_field_title() {
 		return esc_attr__( 'Credit Card', 'gravityforms' );
 	}
@@ -92,7 +101,7 @@ class GF_Field_CreditCard extends GF_Field {
 		foreach ( $this->inputs as $input ) {
 			$input_id    = str_replace( $this->id . '.', '', $input['id'] );
 			$input_value = GFForms::get( $input['id'], $values );
-			if ( ! empty( $_POST[ 'is_submit_' . $this->formId ] ) && $this->isRequired && in_array( $input_id, $required_inputs_ids ) &&  empty( $input_value ) ) {
+			if ( ! empty( $_POST[ 'is_submit_' . $this->formId ] ) && $this->isRequired && in_array( $input_id, $required_inputs_ids ) &&  empty( $input_value ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 				$describedby_attributes[ $input_id ] = "aria-describedby='validation_message_{$this->formId}_{$this->id} {$warning_container_id}'";
 			} else {
 				$describedby_attributes[ $input_id ] = empty( $warning_container_id ) ? '' : "aria-describedby='{$warning_container_id}'";
@@ -497,7 +506,21 @@ class GF_Field_CreditCard extends GF_Field {
 
 	}
 
-	public function get_value_entry_detail( $value, $currency = '', $use_text = false, $format = 'html', $media = 'screen' ) {
+	/**
+	 * Format the entry value for display on the entry detail page and for the {all_fields} merge tag.
+	 *
+	 * @since 1.9
+	 * @since 2.9.29 Changed the second parameter $currency (string) to $entry (array).
+	 *
+	 * @param string|array $value    The field value.
+	 * @param array        $entry    The entry.
+	 * @param bool|false   $use_text When processing choice based fields should the choice text be returned instead of the value.
+	 * @param string       $format   The format requested for the location the merge is being used. Possible values: html, text or url.
+	 * @param string       $media    The location where the value will be displayed. Possible values: screen or email.
+	 *
+	 * @return string
+	 */
+	public function get_value_entry_detail( $value, $entry = array(), $use_text = false, $format = 'html', $media = 'screen' ) {
 
 		if ( is_array( $value ) ) {
 			$card_number = trim( rgget( $this->id . '.1', $value ) );

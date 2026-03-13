@@ -44,14 +44,6 @@ final class Assets {
 	private $assets = array();
 
 	/**
-	 * Internal flag for whether assets have been registered yet.
-	 *
-	 * @since 1.2.0
-	 * @var bool
-	 */
-	private $assets_registered = false;
-
-	/**
 	 * Internal list of print callbacks already done.
 	 *
 	 * @since 1.2.0
@@ -81,12 +73,6 @@ final class Assets {
 			if ( ! is_admin() ) {
 				return;
 			}
-
-			if ( $this->assets_registered ) {
-				return;
-			}
-
-			$this->assets_registered = true;
 			$this->register_assets();
 		};
 		add_action( 'admin_enqueue_scripts', $register_callback );
@@ -192,11 +178,7 @@ final class Assets {
 	 * @param string $handle Asset handle.
 	 */
 	public function enqueue_asset( $handle ) {
-		// Register assets on-the-fly if necessary (currently the case for admin bar in frontend).
-		if ( ! $this->assets_registered ) {
-			$this->assets_registered = true;
-			$this->register_assets();
-		}
+		$this->register_assets();
 
 		$assets = $this->get_assets();
 		if ( empty( $assets[ $handle ] ) ) {
@@ -257,11 +239,36 @@ final class Assets {
 	 * @since 1.0.0
 	 */
 	private function register_assets() {
+		if ( $this->has_registered_assets() ) {
+			return;
+		}
+
 		$assets = $this->get_assets();
 
 		foreach ( $assets as $asset ) {
 			$asset->register( $this->context );
 		}
+	}
+
+	/**
+	 * Checks if assets have already been registered.
+	 *
+	 * @since 1.173.0
+	 * @return bool True if already registered, false otherwise.
+	 */
+	private function has_registered_assets() {
+		$assets = $this->get_assets();
+		if ( empty( $assets ) ) {
+			return false;
+		}
+
+		$first = reset( $assets );
+		if ( ! $first instanceof Asset ) {
+			return false;
+		}
+
+		$handle = $first->get_handle();
+		return wp_script_is( $handle, 'registered' );
 	}
 
 	/**
@@ -521,6 +528,7 @@ final class Assets {
 						'googlesitekit-data',
 						'googlesitekit-api',
 						'googlesitekit-user-data',
+						'googlesitekit-datastore-site',
 					),
 				)
 			),
@@ -607,6 +615,13 @@ final class Assets {
 					'dependencies' => $this->get_asset_dependencies( 'dashboard' ),
 				)
 			),
+			new Script(
+				'googlesitekit-key-metrics-setup',
+				array(
+					'src'          => $base_url . 'js/googlesitekit-key-metrics-setup.js',
+					'dependencies' => $this->get_asset_dependencies( 'dashboard' ),
+				)
+			),
 			// End JSR Assets.
 			new Script(
 				'googlesitekit-splash',
@@ -643,6 +658,17 @@ final class Assets {
 					'dependencies' => $this->get_asset_dependencies( 'dashboard' ),
 				)
 			),
+			new Script(
+				'googlesitekit-block-tracking',
+				array(
+					'src'           => $base_url . 'js/googlesitekit-block-tracking.js',
+					'dependencies'  => array(
+						'googlesitekit-tracking-data',
+						'googlesitekit-data',
+					),
+					'load_contexts' => array( Asset::CONTEXT_ADMIN_POST_EDITOR ),
+				)
+			),
 			new Stylesheet(
 				'googlesitekit-admin-css',
 				array(
@@ -650,6 +676,13 @@ final class Assets {
 					'dependencies' => array(
 						'googlesitekit-fonts',
 					),
+				)
+			),
+			new Script(
+				'googlesitekit-admin-pointers-tracking',
+				array(
+					'src'          => $base_url . 'js/googlesitekit-admin-pointers-tracking.js',
+					'dependencies' => $this->get_asset_dependencies(),
 				)
 			),
 			// WP Dashboard assets.
@@ -755,6 +788,7 @@ final class Assets {
 			'ampMode'           => $this->context->get_amp_mode(),
 			'isNetworkMode'     => $this->context->is_network_mode(),
 			'timezone'          => get_option( 'timezone_string' ),
+			'startOfWeek'       => (int) get_option( 'start_of_week' ),
 			'siteName'          => wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES ),
 			'siteLocale'        => $this->context->get_locale(),
 			'enabledFeatures'   => Feature_Flags::get_enabled_features(),
@@ -855,6 +889,7 @@ final class Assets {
 			'user' => array(
 				'id'      => $current_user->ID,
 				'email'   => $current_user->user_email,
+				'wpEmail' => $current_user->user_email, // Preserved for features that need the original WP email (email gets overridden during proxy auth).
 				'name'    => $current_user->display_name,
 				'picture' => get_avatar_url( $current_user->user_email ),
 			),
@@ -1014,9 +1049,9 @@ final class Assets {
 			return $tag;
 		}
 
-		// Abort adding async/defer for scripts that have this script as a dependency.
+		// Abort adding async/defer for scripts that have this script as a dependency, unless it is an alias.
 		foreach ( wp_scripts()->registered as $script ) {
-			if ( in_array( $handle, $script->deps, true ) ) {
+			if ( $script->src && in_array( $handle, $script->deps, true ) ) {
 				return $tag;
 			}
 		}

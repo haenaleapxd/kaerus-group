@@ -107,12 +107,11 @@ class GF_Field_Post_Image extends GF_Field_Fileupload {
 		$is_sub_label_above        = $field_sub_label_placement == 'above' || ( empty( $field_sub_label_placement ) && $form_sub_label_placement == 'above' );
 
 		// Prepare accepted extensions message.
-		$allowed_extensions    = join( ',', GFCommon::clean_extensions( explode( ',', strtolower( $this->allowedExtensions ) ) ) );
 		$extensions_message_id = 'extensions_message_' . $form_id . '_' . $id;
 		$extensions_message    = sprintf(
 			"<span id='%s' class='gfield_description gform_fileupload_rules'>%s</span>",
 			$extensions_message_id,
-			esc_attr( sprintf( __( 'Accepted file types: %s.', 'gravityforms' ), str_replace( ',', ', ', $allowed_extensions ) ) )
+			esc_attr( sprintf( __( 'Accepted file types: %s.', 'gravityforms' ), implode( ', ', $this->get_clean_allowed_extensions() ) ) )
 		);
 
 		// Aria attributes.
@@ -121,8 +120,9 @@ class GF_Field_Post_Image extends GF_Field_Fileupload {
 		$aria_describedby   = $this->get_aria_describedby( array( $extensions_message_id ) );
 
 		$hidden_class = $preview = '';
-		$file_info    = RGFormsModel::get_temp_filename( $form_id, "input_{$id}" );
-		if ( $file_info ) {
+		$file_info    = rgar( $this->get_submission_files_for_preview(), 0 );
+
+		if ( ! empty( $file_info ) ) {
 			$hidden_class     = ' gform_hidden';
 			$file_label_style = $hidden_style;
 			$preview          = "<span class='ginput_preview'><strong>" . esc_html( $file_info['uploaded_filename'] ) . "</strong> | <a href='javascript:;' onclick='gformDeleteUploadedFile({$form_id}, {$id});' onkeypress='gformDeleteUploadedFile({$form_id}, {$id});'>" . __( 'delete', 'gravityforms' ) . '</a></span>';
@@ -188,10 +188,10 @@ class GF_Field_Post_Image extends GF_Field_Fileupload {
 			return '';
 		}
 
-		$image_alt         = isset( $_POST["{$input_name}_2"] ) ? wp_strip_all_tags( $_POST["{$input_name}_2"] ) : '';
-		$image_title       = isset( $_POST["{$input_name}_1"] ) ? wp_strip_all_tags( $_POST["{$input_name}_1"] ) : '';
-		$image_caption     = isset( $_POST["{$input_name}_4"] ) ? wp_strip_all_tags( $_POST["{$input_name}_4"] ) : '';
-		$image_description = isset( $_POST["{$input_name}_7"] ) ? wp_strip_all_tags( $_POST["{$input_name}_7"] ) : '';
+		$image_alt         = isset( $_POST["{$input_name}_2"] ) ? wp_strip_all_tags( $_POST["{$input_name}_2"] ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+		$image_title       = isset( $_POST["{$input_name}_1"] ) ? wp_strip_all_tags( $_POST["{$input_name}_1"] ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+		$image_caption     = isset( $_POST["{$input_name}_4"] ) ? wp_strip_all_tags( $_POST["{$input_name}_4"] ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+		$image_description = isset( $_POST["{$input_name}_7"] ) ? wp_strip_all_tags( $_POST["{$input_name}_7"] ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 
 		return $url . '|:|' . $image_title . '|:|' . $image_caption . '|:|' . $image_description . '|:|' . $image_alt;
 	}
@@ -217,7 +217,21 @@ class GF_Field_Post_Image extends GF_Field_Fileupload {
 		);
 	}
 
-	public function get_value_entry_detail( $value, $currency = '', $use_text = false, $format = 'html', $media = 'screen' ) {
+	/**
+	 * Format the entry value for display on the entry detail page and for the {all_fields} merge tag.
+	 *
+	 * @since 1.9
+	 * @since 2.9.29 Changed the second parameter $currency (string) to $entry (array).
+	 *
+	 * @param string|array $value    The field value.
+	 * @param array        $entry    The entry.
+	 * @param bool|false   $use_text When processing choice based fields should the choice text be returned instead of the value.
+	 * @param string       $format   The format requested for the location the merge is being used. Possible values: html, text or url.
+	 * @param string       $media    The location where the value will be displayed. Possible values: screen or email.
+	 *
+	 * @return string
+	 */
+	public function get_value_entry_detail( $value, $entry = array(), $use_text = false, $format = 'html', $media = 'screen' ) {
 		$ary         = explode( '|:|', $value );
 		$url         = count( $ary ) > 0 ? $ary[0] : '';
 		$title       = count( $ary ) > 1 ? $ary[1] : '';

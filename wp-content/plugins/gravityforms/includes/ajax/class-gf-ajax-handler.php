@@ -6,6 +6,8 @@
  */
 namespace Gravity_Forms\Gravity_Forms\Ajax;
 
+use GFCommon;
+
 /**
  * Class GF_Ajax_Handler
  *
@@ -22,7 +24,7 @@ class GF_Ajax_Handler {
 	 * @since 2.9.0
 	 *
 	 * @deprecated 2.9.9 Use GFAPI::validate_form() instead.
-	 * @remove-in 3.1.0
+	 * @remove-in 4.0
 	 */
 	public function validate_form() {
 
@@ -80,7 +82,7 @@ class GF_Ajax_Handler {
 		$nonce_result = check_ajax_referer( 'gform_ajax_submission', 'gform_ajax_nonce', false );
 
 		if ( ! $nonce_result ) {
-			$this->send_json_error( $this->nonce_validation_message() );
+			GFCommon::send_json_error( $this->nonce_validation_message() );
 		}
 
 		$this->hydrate_get_from_current_page_url();
@@ -115,7 +117,13 @@ class GF_Ajax_Handler {
 		$result = \GFAPI::submit_form( $form_id, array(), $field_values, $target_page, $source_page, \GFFormDisplay::SUBMISSION_INITIATED_BY_WEBFORM );
 
 		if ( is_wp_error( $result ) ) {
-			$this->send_json_error( $result->get_error_message() );
+			if ( $result->get_error_code() === 'button_logic_error' ) {
+				$message = esc_html__( 'There was a problem with your submission.', 'gravityforms' ) . ' ' . $result->get_error_message();
+			} else {
+				$message = $result->get_error_message();
+			}
+
+			GFCommon::send_json_error( $message );
 		}
 
 		$form = $result['form'];
@@ -155,64 +163,7 @@ class GF_Ajax_Handler {
 		// Remove form from result.
 		unset( $result['form'] );
 
-		$this->send_json_success( $result );
-	}
-
-	/**
-	 * Sends a success JSON response with a delimiter indicating the beginning and end of the JSON string.
-	 *
-	 * @since 2.9.9
-	 *
-	 * @param mixed $data The data to be sent in the JSON response.
-	 *
-	 * @return void
-	 */
-	public function send_json_success( $data ) {
-
-		$response = array( 'success' => true );
-
-		if ( isset( $data ) ) {
-			$response['data'] = $data;
-		}
-
-		$this->send_json( $response );
-	}
-
-	/**
-	 * Sends an error JSON response with a delimiter indicating the beginning and end of the JSON string.
-	 *
-	 * @since 2.9.9
-	 *
-	 * @param mixed $data The data to be sent in the JSON response.
-	 *
-	 * @return void
-	 */
-	public function send_json_error( $data ) {
-
-		$response = array( 'success' => false );
-
-		if ( isset( $data ) ) {
-			$response['data'] = $data;
-		}
-
-		$this->send_json( $response );
-	}
-
-	/**
-	 * Sends a JSON response with a delimiter indicating the beginning and end of the JSON string.
-	 *
-	 * @since 2.9.9
-	 *
-	 * @param array $response The response data to be sent in the JSON response.
-	 *
-	 * @return void
-	 */
-	public function send_json( $response ) {
-
-		// Outputting JSON content with delimiters.
-		echo '<!-- gf:json_start -->' . wp_json_encode( $response ) . '<!-- gf:json_end -->';
-
-		wp_die( '', '', array( 'response' => null ) );
+		GFCommon::send_json_success( $result );
 	}
 
 	/**
@@ -226,7 +177,7 @@ class GF_Ajax_Handler {
 	 * @return string The submission type. Possible values are SUBMISSION_TYPE_SUBMIT, SUBMISSION_TYPE_NEXT, SUBMISSION_TYPE_PREVIOUS, and SUBMISSION_TYPE_SAVE_AND_CONTINUE.
 	 */
 	public function get_submission_type( $target_page, $source_page ) {
-		if ( isset( $_POST['gform_send_resume_link'] ) ) {
+		if ( isset( $_POST['gform_send_resume_link'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 			return \GFFormDisplay::SUBMISSION_TYPE_SEND_LINK;
 		} elseif ( rgpost( 'gform_save') ) {
 			return \GFFormDisplay::SUBMISSION_TYPE_SAVE_AND_CONTINUE;
@@ -253,7 +204,7 @@ class GF_Ajax_Handler {
 
 		$confirmation = \GFFormDisplay::get_form( $form_id, false, false, false, rgpost( 'gform_field_values' ) );
 
-		$this->send_json_success(
+		GFCommon::send_json_success(
 			array(
 				'is_valid'             => true,
 				'confirmation_type'    => 'message',
@@ -342,7 +293,7 @@ class GF_Ajax_Handler {
 
 		parse_str( $query_string, $query );
 		unset( $query['gf_page'] ); // Removing so it doesn't conflict with gf_ajax_page=preview.
-		$_GET = array_merge( $_GET, $query );
+		$_GET = array_merge( $_GET, $query ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	}
 
 }

@@ -2,9 +2,9 @@
 Contributors: gravityview
 Tags: gravity forms, spam, captcha, honeypot, anti-spam
 Requires at least: 4.7
-Tested up to: 6.7.1
-Stable tag: 1.4.6
-Requires PHP: 5.2.6
+Tested up to: 6.9.4
+Stable tag: 1.7.2
+Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://www.gravitykit.com?utm_source=plugin&utm_campaign=zero-spam&utm_content=donate
@@ -100,10 +100,6 @@ Once you have saved the setting, to enable for specific forms:
 
 Now that form will use Zero Spam.
 
-= Is this plugin PHP 7 and PHP 8 compatible? =
-
-Yes.
-
 = All entries are going to spam. What can I do? =
 
 First, **de-activate and re-activate the plugin**. Then let us know on the support tab!
@@ -113,6 +109,42 @@ First, **de-activate and re-activate the plugin**. Then let us know on the suppo
 You can enable a spam summary report email. This email will be sent to the email address configured in the "Spam Summary Email" setting on the Gravity Forms "Forms" menu, click Settings, then click the Zero Spam tab.
 
 == Changelog ==
+
+= 1.7.2 on March 12, 2026 =
+
+* Fixed: Forms with conditional logic could be invisible to visitors
+
+= 1.7.1 on March 6, 2026 =
+
+* Fixed: Fatal error on sites where `AUTH_KEY` or `SECURE_AUTH_KEY` constants are not defined in `wp-config.php`
+
+= 1.7.0 on March 5, 2026 =
+
+* Added: Stronger spam prevention using signed, time-limited tokens
+* API: Added `gf_zero_spam_client_ip` filter to override the visitor IP used for rate limiting (useful for sites behind Cloudflare or load balancers)
+* API: Added `gf_zero_spam_rate_limit` filter to adjust the maximum token requests allowed per IP per minute (default: 30)
+
+= 1.6.0 on February 27, 2026 =
+
+* Improved: Removed dependency on jQuery
+* Fixed: "Prevent spam using Gravity Forms Zero Spam" toggle appeared twice in form settings
+
+= 1.5.0 on February 26, 2026 =
+
+**This release requires PHP 7.4 or newer.**
+
+* Added: Email rejection rules to validate email field submissions and take action based on matching addresses, domains, or patterns
+  - Match by exact email, domain (e.g., `@example.com`), wildcard, or regular expressions (regex)
+  - Block the submission (requires Gravity Forms 2.9.15+), flag it as spam, or log it with an entry note
+  - Import multiple rules at once from a text list
+  - Enable/disable rules individually
+  - Set field-specific overrides in the Form Editor
+* Added: Spam entries now show the reason they were flagged (e.g., missing or invalid key)
+* Added: Zero Spam toggle now appears in the "Spam" form settings section on Gravity Forms 2.9.21+
+* Added: Spam protection for Save and Continue, preventing bots from creating spam drafts
+* Improved: Redundant spam checks are skipped when the entry is already flagged by another filter
+* API: Added `gf_zero_spam_email_rules` filter to modify email rejection rules before evaluation
+* API: Added `gf_zero_spam_email_rule_match` action that fires when an email matches a rejection rule
 
 = 1.4.6 on January 7, 2025 =
 
