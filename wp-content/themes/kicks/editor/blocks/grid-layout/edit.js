@@ -44,7 +44,7 @@ function Edit({
   clientId,
 }) {
   const {
-    rows, rowHeights, hasModal,
+    rows, rowHeights, hasModal, fullWidth
   } = attributes;
 
   const blockContext = useXdBlockContext();
@@ -275,11 +275,12 @@ function Edit({
   };
 
   const blockProps = useBlockProps({
-    className: 'grid-layout',
+    className: `grid-layout${fullWidth ? ' full-width' : ''}`,
     style: { '--grid-gap': `${gutterSize}px` },
     'data-preview-mode': previewMode,
     ref: contextRef,
   });
+
 
   const { children, ...innerBlocksProps } = useInnerBlocksProps(blockProps, {
     allowedBlocks: ['custom/grid-cell'],
@@ -301,55 +302,61 @@ function Edit({
   return (
     <>
       {popoverOpen && (
-      <Popover
-        onClose={() => setPopoverOpen(false)}
-        position="bottom left"
-        anchor={contextRef.current}
-      >
-        <Card>
-          <CardBody
-            style={{ minWidth: '250px' }}
-          >
-            <TextControl
-              type="number"
-              label="Number of grid cells to insert."
-              value={cellsToInsert}
-              onChange={(value) => setCellsToInsert(parseInt(value, 10) || '')}
-            />
-            <BaseControl
-              label="Cells Per Row"
+        <Popover
+          onClose={() => setPopoverOpen(false)}
+          position="bottom left"
+          anchor={contextRef.current}
+        >
+          <Card>
+            <CardBody
+              style={{ minWidth: '250px' }}
             >
-              <HStack
-                gap={4}
+              <TextControl
+                type="number"
+                label="Number of grid cells to insert."
+                value={cellsToInsert}
+                onChange={(value) => setCellsToInsert(parseInt(value, 10) || '')}
+              />
+              <BaseControl
+                label="Cells Per Row"
               >
-                {previewModes.map((mode, key) => (
-                  <div key={key}>
-                    <TextControl
-                      label={mode}
-                      type="number"
-                      hideLabelFromVision
-                      help={mode.charAt(0).toUpperCase() + mode.slice(1)}
-                      onChange={(value) => {
-                        setItemsPerRow({ ...itemsPerRow, [mode]: Math.min(Math.max(0, parseInt(value, 10) || 0), 24) || '' });
-                      }}
-                      value={itemsPerRow[mode]}
-                    />
-                  </div>
-                ))}
-              </HStack>
-            </BaseControl>
-          </CardBody>
-          <Button
-            className="block-editor-inserter__quick-inserter-expand is-next-40px-default-size"
-            onClick={() => handleInsertCells(cellsToInsert)}
-          >
-            Insert Cells
-          </Button>
-        </Card>
-      </Popover>
+                <HStack
+                  gap={4}
+                >
+                  {previewModes.map((mode, key) => (
+                    <div key={key}>
+                      <TextControl
+                        label={mode}
+                        type="number"
+                        hideLabelFromVision
+                        help={mode.charAt(0).toUpperCase() + mode.slice(1)}
+                        onChange={(value) => {
+                          setItemsPerRow({ ...itemsPerRow, [mode]: Math.min(Math.max(0, parseInt(value, 10) || 0), 24) || '' });
+                        }}
+                        value={itemsPerRow[mode]}
+                      />
+                    </div>
+                  ))}
+                </HStack>
+              </BaseControl>
+            </CardBody>
+            <Button
+              className="block-editor-inserter__quick-inserter-expand is-next-40px-default-size"
+              onClick={() => handleInsertCells(cellsToInsert)}
+            >
+              Insert Cells
+            </Button>
+          </Card>
+        </Popover>
       )}
       <InspectorControls>
         <PanelBody title="Grid Settings" initialOpen>
+          <ToggleControl
+            label="Full width"
+            help="Extend grid to screen edges without side padding."
+            checked={fullWidth}
+            onChange={() => setAttributes({ fullWidth: !fullWidth })}
+          />
           <ToggleControl
             label="Images open in modal"
             help="Images in this grid to open in a modal when clicked."
@@ -446,7 +453,7 @@ function Edit({
                   offset: Math.min(Math.max(0, parseInt(value, 10) || 0), rows[previewMode] + 1) || '',
                 })}
                 disabled={rowsToInsert.position === 'start'
-                    || rowsToInsert.position === 'end'}
+                  || rowsToInsert.position === 'end'}
               />
             </HStack>
           </BaseControl>
