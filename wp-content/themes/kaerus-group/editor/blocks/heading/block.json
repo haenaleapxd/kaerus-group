@@ -1,0 +1,17 @@
+{
+  "/*block styles overrides in widgets*/": "",
+  "name": "core/heading",
+  "parent": [
+    "xd/container"
+  ],
+  "styles": [
+    {
+      "name": "display-1",
+      "label": "Display 1"
+    },
+    {
+      "name": "display-2",
+      "label": "Display 2"
+    }
+  ]
+}

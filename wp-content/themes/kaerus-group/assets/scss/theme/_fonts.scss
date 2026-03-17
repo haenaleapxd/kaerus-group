@@ -8,8 +8,8 @@
 
   // Font family
 
-  --primary-font-family: "Open Sans", sans-serif;
-  --secondary-font-family: "Open Sans", sans-serif;
+  --primary-font-family: "helvetica-neue-lt-pro", sans-serif;
+  --secondary-font-family: "Lato", sans-serif;
   // --tertiary-font-family: var(--secondary-font-family);
 
   --d1-font-family: var(--primary-font-family);
@@ -32,8 +32,8 @@
 
   // Font weight
 
-  --d1-font-weight: 300;
-  --d2-font-weight: 300;
+  --d1-font-weight: 400;
+  --d2-font-weight: 400;
   --h2-font-weight: 400;
   --h3-font-weight: 400;
   --h4-font-weight: 400;
@@ -73,15 +73,16 @@
   // Font size
 
   --d1-font-size: #{pixeltorem(52)};
-  --d2-font-size: #{pixeltorem(46)};
+  --d2-font-size: #{pixeltorem(40)};
   --h2-font-size: #{pixeltorem(36)};
-  --h3-font-size: #{pixeltorem(32)};
+  --h3-font-size: #{pixeltorem(30)};
   --h4-font-size: #{pixeltorem(26)};
   --h5-font-size: #{pixeltorem(22)};
   --h6-font-size: #{pixeltorem(20)};
 
   --p1-font-size: #{pixeltorem(18)};
   --body-font-size: #{pixeltorem(16)};
+  --p2-font-size: #{pixeltorem(16)};
   --p3-font-size: #{pixeltorem(14)};
   --p4-font-size: #{pixeltorem(14)};
 
@@ -92,15 +93,16 @@
 
   @include mq(m) {
     --d1-font-size: #{pixeltorem(92)};
-    --d2-font-size: #{pixeltorem(72)};
+    --d2-font-size: #{pixeltorem(64)};
     --h2-font-size: #{pixeltorem(48)};
-    --h3-font-size: #{pixeltorem(42)};
+    --h3-font-size: #{pixeltorem(40)};
     --h4-font-size: #{pixeltorem(32)};
     --h5-font-size: #{pixeltorem(24)};
     --h6-font-size: #{pixeltorem(22)};
 
     --p1-font-size: #{pixeltorem(22)};
     --body-font-size: #{pixeltorem(18)};
+    --p2-font-size: #{pixeltorem(18)};
     --p3-font-size: #{pixeltorem(16)};
     // --p4-font-size:#{pixeltorem(14)};
 
@@ -128,7 +130,7 @@
   --title-sm-letter-spacing: #{pixeltorem(1.5)};
 
   @include mq(m) {
-    --title-letter-spacing: #{pixeltorem(2)};
+    --title-letter-spacing: #{pixeltorem(1.5)};
     --title-sm-letter-spacing: #{pixeltorem(2)};
   }
 }

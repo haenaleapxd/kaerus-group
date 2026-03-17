@@ -1,0 +1,71 @@
+@use '../mixins/' as *;
+
+.xd-title-block {
+  .xd-two-column__columns {
+    position: relative;
+
+    @include mq(l) {
+      padding-top: var(--spacing-sm);
+    }
+
+    @include mq(l) {
+      &::before {
+        position: absolute;
+        background: var(--stroke);
+        content: "";
+        display: block;
+        height: 1px;
+        width: calc(100% - 20px);
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+
+
+    .xd-block-title {
+      &--left {
+        order: 2;
+        margin-bottom: 0;
+        padding: 0;
+
+        @include mq(m) {
+          padding: 15px;
+        }
+
+        @include mq(l) {
+          order: 1;
+          margin-left: 0;
+          padding: 0;
+        }
+      }
+
+      &--right {
+        text-align: left;
+        position: relative;
+
+        @include mq(l) {
+          order: 2;
+          text-align: right;
+        }
+
+        &::after {
+          position: absolute;
+          background: var(--stroke);
+          content: "";
+          display: block;
+          height: 1px;
+          width: 100%;
+          top: 3rem;
+
+          @include mq(m) {
+            top: 3.5rem;
+          }
+
+          @include mq(l) {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}

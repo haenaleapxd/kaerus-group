@@ -1,8 +1,12 @@
 {
-  "editor.css": "/wp-content/themes/kaerus-group/build/css/editor.da477231e323ccd10933.min.css",
-  "editor.js": "/wp-content/themes/kaerus-group/build/js/editor.da477231e323ccd10933.min.js",
-  "main.css": "/wp-content/themes/kaerus-group/build/css/main.c7f3b5e0c449f1c59e3f.min.css",
-  "main.js": "/wp-content/themes/kaerus-group/build/js/main.c7f3b5e0c449f1c59e3f.min.js",
-  "block-styles/index.css": "/wp-content/themes/kaerus-group/build/css/block-styles/index.1259ff7c527aaac25e36.min.css",
+  "editor.css": "/wp-content/themes/kaerus-group/build/css/editor.ea67d7992658241a7b65.min.css",
+  "editor.js": "/wp-content/themes/kaerus-group/build/js/editor.ea67d7992658241a7b65.min.js",
+  "main.css": "/wp-content/themes/kaerus-group/build/css/main.c7fa0fd3638178d4138f.min.css",
+  "main.js": "/wp-content/themes/kaerus-group/build/js/main.c7fa0fd3638178d4138f.min.js",
+  "block-styles/title-block.css": "/wp-content/themes/kaerus-group/build/css/block-styles/title-block.bdff3ea8895aff1c9a86.min.css",
+  "block-styles/lists.css": "/wp-content/themes/kaerus-group/build/css/block-styles/lists.9dcecdd7691642a36af2.min.css",
+  "block-styles/index.css": "/wp-content/themes/kaerus-group/build/css/block-styles/index.dfc3ac73fa800a4bccfb.min.css",
+  "block-styles/grid-layout.css": "/wp-content/themes/kaerus-group/build/css/block-styles/grid-layout.ab7a9876e4ce8a383aa6.min.css",
+  "block-styles/columns.css": "/wp-content/themes/kaerus-group/build/css/block-styles/columns.e4364df07487ef28d6e7.min.css",
   "block-overrides/index.css": "/wp-content/themes/kaerus-group/build/css/block-overrides/index.ae3a9aeba3facfb2763f.min.css"
 }

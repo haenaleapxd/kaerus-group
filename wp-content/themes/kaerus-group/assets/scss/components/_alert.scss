@@ -1,0 +1,16 @@
+@use '../mixins/' as *;
+
+.xd-alert {
+  background-color: var(--medium);
+
+  p {
+    color: var(--body);
+  }
+
+  .uk-alert-close {
+    .xd-icon {
+      color: var(--body);
+    }
+  }
+
+}

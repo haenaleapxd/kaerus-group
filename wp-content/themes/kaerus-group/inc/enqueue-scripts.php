@@ -23,7 +23,8 @@ function xdc_enqueue_scripts() {
 	// Theme fonts.
 	// setting the version to null prevents wp from removing multiple family= parameters.
 	// phpcs:ignore.
-	wp_enqueue_style( 'xd_fonts', 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=swap', array(), null );
+	wp_enqueue_style( 'xd_fonts', 'https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap', array(), null );
+	wp_enqueue_style( 'xd_fonts_adobe', 'https://use.typekit.net/tke0uqs.css', array(), null );
 
 	if ( ! empty( $_SERVER['HTTP_X_PROXIEDBY_WEBPACK_CHILD'] ) ) {
 		// remove the parent theme style in development mode.
@@ -78,7 +79,6 @@ function xdc_enqueue_scripts() {
 	$dependencies = array( 'xd_main_js' );
 
 	wp_enqueue_script( 'xdc-js', $assets['main.js'], $dependencies, THEME_VER, true );
-
 }
 add_action( 'wp_enqueue_scripts', 'xdc_enqueue_scripts', 20 );
 
@@ -140,7 +140,8 @@ function xdc_enqueue_editor_scripts() {
 	// Editor fonts.
 	// setting the version to null prevents wp from removing multiple family= parameters.
 	// phpcs:ignore.
-	wp_enqueue_style( 'xd_fonts', 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=swap', array(), null );
+	wp_enqueue_style( 'xd_fonts', 'https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap', array(), null );
+	wp_enqueue_style( 'xd_fonts_adobe', 'https://use.typekit.net/tke0uqs.css', array(), null );
 }
 add_action( 'enqueue_block_editor_assets', 'xdc_enqueue_editor_scripts' );
 

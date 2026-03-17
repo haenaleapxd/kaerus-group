@@ -1,4 +1,5 @@
 @use '../mixins' as *;
+
 /* ----- CSS COLOR VARIABLES --------------------------------- */
 /* stylelint-disable custom-property-empty-line-before */
 /* stylelint-disable max-empty-lines */
@@ -7,18 +8,21 @@
 
   // Theme Colors
 
-  --body: #292929;
+  --body: #243038;
 
   --black: #000;
   --white: #fff;
 
-  --primary: #235fa3;
-  --secondary: #468ad8;
-  --tertiary: #474747;
+  --primary: #243038;
+  --secondary: #415460;
+  --tertiary: #415460;
 
-  --light: transparent;
-  --medium: var(--grey-100);
-  --dark: var(--tertiary);
+  --light: #EEEDE4;
+  --medium: #A8BBCA;
+  --dark: var(--primary);
+
+  --inverse-stroke: #C2C1B9;
+  --inverse-text-color: var(--light);
 
   // New Greys
 
@@ -33,12 +37,12 @@
   --grey-900: var(--body);
 
   // Overlays
-  --overlay-3: rgba(0, 0, 0, 0.3);
-  --overlay-4: rgba(0, 0, 0, 0.4);
-  --overlay-5: rgba(0, 0, 0, 0.5);
-  --overlay-6: rgba(0, 0, 0, 0.6);
-  --overlay-7: rgba(0, 0, 0, 0.7);
-  --overlay-8: rgba(0, 0, 0, 0.8);
+  --overlay-3: rgb(0, 0, 0, 0.3);
+  --overlay-4: rgb(0, 0, 0, 0.4);
+  --overlay-5: rgb(0, 0, 0, 0.5);
+  --overlay-6: rgb(0, 0, 0, 0.6);
+  --overlay-7: rgb(0, 0, 0, 0.7);
+  --overlay-8: rgb(0, 0, 0, 0.8);
 
   // Font default colors
 
@@ -51,6 +55,8 @@
   --h6-color: var(--body);
   --p-color: var(--body);
 
+  --heading: var(--body);
+
   //links
   --body-link-color: var(--primary);
   --body-link-hover-color: var(--secondary);
@@ -58,14 +64,14 @@
 
   // Title link colors will use body link colors in most cases if these are not set.
   --title-link-color: var(--body);
-  --title-link-hover-color: var(--grey-700);
+  --title-link-hover-color: var(--secondary);
 
   // Base icon link color is overridden in most cases. This is the default.
   --icon-link-color: var(--body);
-  --icon-link-hover-color: var(--grey-700);
+  --icon-link-hover-color: var(--secondary);
 
   // Elements
-  --stroke: var(--grey-300);
+  --stroke: #5C6971;
 
   --input-border: var(--grey-400);
   --input-background: var(--white);
@@ -85,8 +91,8 @@
   --filter-select-border-color: var(--stroke);
   --pagination-body: var(--body);
   --pagination-body-link: var(--secondary);
-  --flyout-background: var(--white);
-  --icon-color: var(--body);
+  --flyout-background: var(--medium);
+  --icon-color: var(--primary);
 
   // Overlays
   --hero-overlay: var(--overlay-3);
@@ -107,7 +113,7 @@
   --menu-button-background-color: transparent;
   --header-background-color: transparent;
   --menu-color: var(--body);
-  --menu-hover-color: var(--grey-600);
+  --menu-hover-color: var(--secondary);
   --menu-background-color: var(--flyout-background);
 
   // navbar menu colors
@@ -130,7 +136,7 @@
 
   // Card button colors
   --card-button-color: var(--white);
-  --card-button-background-color: rgba(255, 255, 255, 0.3);
+  --card-button-background-color: rgb(255, 255, 255, 0.3);
 
   // Card colors
   // --card-background-color: var(--white);
@@ -159,8 +165,8 @@
 
 %btn-ghost {
   --btn-background-color: transparent;
-  --btn-border-color: var(--secondary);
-  --btn-color: var(--secondary);
+  --btn-border-color: var(--primary);
+  --btn-color: var(--primary);
 }
 
 %btn-alternate {
@@ -172,24 +178,24 @@
 }
 
 %btn-inverse {
-  --btn-background-color: var(--white);
-  --btn-border-color: var(--white);
+  --btn-background-color: var(--light);
+  --btn-border-color: var(--light);
   --btn-color: var(--primary);
-  --btn-background-hover-color: var(--primary);
-  --btn-border-hover-color: var(--primary);
-  --btn-focus-inner-color: var(--white);
-  --btn-focus-outer-color: var(--primary);
+  --btn-background-hover-color: var(--secondary);
+  --btn-border-hover-color: var(--secondary);
+  --btn-focus-inner-color: var(--light);
+  --btn-focus-outer-color: var(--secondary);
 }
 
 %btn-inverse-ghost {
   --btn-background-color: transparent;
-  --btn-border-color: var(--white);
-  --btn-color: var(--white);
-  --btn-background-hover-color: var(--white);
-  --btn-border-hover-color: var(--white);
+  --btn-border-color: var(--light);
+  --btn-color: var(--light);
+  --btn-background-hover-color: var(--light);
+  --btn-border-hover-color: var(--light);
   --btn-hover-color: var(--primary);
   --btn-focus-inner-color: var(--tertiary);
-  --btn-focus-outer-color: var(--white);
+  --btn-focus-outer-color: var(--light);
 }
 
 .xd-button--ghost {
@@ -231,27 +237,37 @@
   }
 }
 
+.is-style-dark:not(.hero) {
+  --d1-color: var(--medium);
+  --d2-color: var(--medium);
+}
 // Style contexts
 .is-style-dark,
 .xd-alert,
 .slider-theme-dark,
 .xd-image--cover,
 .xd-video--image-cover,
-.xd-has-background-image.xd-has-background-image--overlay {
-  --d1-color: var(--white);
-  --d2-color: var(--white);
-  --h2-color: var(--white);
-  --h3-color: var(--white);
-  --h4-color: var(--white);
-  --h5-color: var(--white);
-  --h6-color: var(--white);
-  --p-color: var(--white);
+.xd-has-background-image.xd-has-background-image--overlay,
+.page-header-theme-filled .xd-nav,
+.header-theme-filled .xd-nav {
+  --d1-color: var(--light);
+  --d2-color: var(--light);
+  --h2-color: var(--light);
+  --h3-color: var(--light);
+  --h4-color: var(--light);
+  --h5-color: var(--light);
+  --h6-color: var(--light);
+  --p-color: var(--light);
 
-  --icon-color: var(--white);
+  --heading: var(--light);
 
-  --body-link-color: var(--white);
+  --icon-color: var(--medium);
+
+  --body-link-color: var(--light);
   --body-link-hover-color: var(--grey-300);
-  --body-link-focus-color: var(--white);
+  --body-link-focus-color: var(--light);
+
+  --stroke: var(--inverse-stroke);
 
   // If different from body link
   // --text-btn-color: var(--white);
@@ -261,21 +277,21 @@
 
   // Title link colors will use body link colors in most cases
   // if these are not set here or in root context.
-  --title-link-color: var(--white);
+  --title-link-color: var(--light);
   --title-link-hover-color: var(--grey-300);
 
   // Base icon link color is overridden in most cases. This is the default.
-  --icon-link-color: var(--white);
+  --icon-link-color: var(--light);
   --icon-link-hover-color: var(--grey-300);
 
-  --slider-dot-color: var(--white);
-  --slider-arrow-background-color: rgba(255, 255, 255, 0.3);
-  --slider-arrow-color: var(--white);
+  --slider-dot-color: var(--light);
+  --slider-arrow-background-color: rgb(255, 255, 255, 0.3);
+  --slider-arrow-color: var(--light);
 
   a:hover &,
   a:hover {
-    --slider-arrow-background-color: rgba(255, 255, 255, 0.15);
-    --card-button-background-color: rgba(255, 255, 255, 0.15);
+    --slider-arrow-background-color: rgb(255, 255, 255, 0.15);
+    --card-button-background-color: rgb(255, 255, 255, 0.15);
     // --slider-arrow-color: var(--white);
   }
 
@@ -292,7 +308,7 @@
 // .xd-flyout,
 .xd-footer {
   // when the nav, flyout, or footer is dark
-  --body-link-focus-color: var(--white);
+  --body-link-focus-color: var(--light);
 }
 
 .is-style-standard-list-with-links,
@@ -308,15 +324,15 @@
 
 .page-header-theme-filled,
 .header-theme-filled {
-  --header-background-color: var(--menu-background-color);
-  --menu-button-color: var(--body);
+  --header-background-color: var(--dark);
+  --menu-button-color: var(--light);
   --menu-navbar-hover-color: var(--secondary);
 
   .xd-navbar {
     .xd-button--inverse {
-      --btn-background-color: var(--primary);
-      --btn-border-color: var(--primary);
-      --btn-color: var(--white);
+      --btn-background-color: var(--light);
+      --btn-border-color: var(--light);
+      --btn-color: var(--primary);
     }
 
     .xd-button--ghost-inverse {
@@ -337,6 +353,27 @@
   --menu-navbar-hover-color: var(--secondary);
 }
 
+.page-header-theme-transparent {
+  .xd-navbar {
+    .xd-button--inverse {
+      --btn-background-color: var(--light);
+      --btn-border-color: var(--light);
+      --btn-color: var(--primary);
+    }
+
+    .xd-button--ghost {
+      --btn-background-color: transparent;
+      --btn-border-color: var(--light);
+      --btn-color: var(--light);
+      --btn-background-hover-color: var(--light);
+      --btn-border-hover-color: var(--light);
+      --btn-hover-color: var(--secondary);
+      --btn-focus-inner-color: var(--secondary);
+      --btn-focus-outer-color: var(--light);
+    }
+  }
+}
+
 .uk-offcanvas-page {
   --header-background-color: transparent;
   --menu-button-color: var(--menu-background-color);
@@ -350,3 +387,6 @@
   --menu-navbar-hover-color: var(--secondary);
 }
 
+body {
+  background-color: var(--dark);
+}

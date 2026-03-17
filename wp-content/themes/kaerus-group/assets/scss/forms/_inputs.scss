@@ -1,0 +1,25 @@
+input:where(:not([type="checkbox"], [type="radio"], [type="submit"])),
+select,
+textarea {
+  font-size: var(--p2-font-size);
+  font-family: var(--secondary-font-family);
+  min-height: 42px;
+  padding: 0.3rem 0.75rem;
+}
+
+textarea {
+  padding: 0.75rem;
+}
+
+.is-style-dark {
+  form {
+    input[type="button"],
+    input[type="submit"] {
+      --btn-background-color: var(--light);
+      --btn-color: var(--primary);
+      --btn-border-color: var(--light);
+
+      border-radius: 25px !important;
+    }
+  }
+}

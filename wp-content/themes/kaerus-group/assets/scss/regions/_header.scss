@@ -1,0 +1,15 @@
+@use "../mixins" as *;
+
+.uk-logo,
+.custom-logo-alt {
+  img {
+    max-height: 20px;
+    height: 20px;
+    width: auto;
+
+    @include mq(m) {
+      max-height: 25px;
+      height: 25px;
+    }
+  }
+}

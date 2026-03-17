@@ -1,0 +1,305 @@
+@use '../mixins/' as *;
+
+// gravity forms styles override
+.gform_wrapper {
+  .gform_fields {
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    input[type="tel"],
+    input[type="select"],
+    select {
+      height: 2.75rem;
+      font-size: var(--p2-font-size) !important;
+      color: var(--body);
+    }
+
+    legend {
+      font-size: var(--p3-font-size) !important;
+      font-weight: 500 !important;
+      color: var(--body);
+    }
+
+    label {
+      font-size: var(--p3-font-size) !important;
+      font-weight: 500 !important;
+      color: var(--body);
+    }
+
+    --gf-ctrl-border-color-focus: var(--stroke) !important;
+    --gf-ctrl-outline-color-focus: var(--stroke) !important;
+  }
+
+  .gf_progressbar {
+    height: 8px;
+  }
+
+  .gf_progressbar_percentage {
+    height: 8px !important;
+  }
+
+  .gf_progressbar_title {
+    font-family: var(--title-font-family);
+    font-size: var(--title-font-size);
+    font-weight: var(--title-font-weight);
+    line-height: var(--title-line-height);
+    letter-spacing: var(--title-letter-spacing);
+    text-transform: var(--title-text-transform);
+    color: var(--title-color);
+
+    --gf-ctrl-outline-width-focus: 0 !important;
+  }
+
+  .gform_next_button,
+  input[type="submit"] {
+    &:focus {
+      box-shadow: inset 0 0 0 3px var(--secondary), inset 0 0 0 5px var(--inverse-text-color) !important;
+    }
+  }
+
+  input[type="submit"],
+  input[type="button"],
+  button[type="button"],
+  .button:not(.gform-theme-button--secondary) {
+    --gf-ctrl-btn-bg-color-primary: var(--primary);
+    --gf-ctrl-btn-bg-color-hover-primary: var(--secondary);
+    --gf-ctrl-btn-bg-color-focus-primary: var(--secondary);
+    --gf-ctrl-btn-border-color-focus-primary: transparent;
+    --gf-ctrl-outline-color-focus: transparent;
+    --gf-local-shadow: none !important;
+
+    margin-top: 1.5rem !important;
+    font-family: var(--body-font-family);
+    font-weight: 700 !important;
+    font-size: #{pixeltorem(13)} !important;
+    text-transform: uppercase !important;
+    letter-spacing: #{pixeltorem(2)} !important;
+    line-height: 1.45 !important;
+    min-width: 13ch !important;
+    padding: 0.75rem !important;
+    border-radius: 0 !important;
+
+    @include mq(m) {
+      min-width: 20ch !important;
+    }
+  }
+
+  .gform-theme-button--secondary {
+    color: var(--primary) !important;
+    border: 2px solid var(--primary) !important;
+    background-color: transparent !important;
+
+    --gf-local-shadow: none !important;
+    --gf-ctrl-btn-bg-color-focus-secondary: var(--secondary) !important;
+
+    &:hover,
+    &:focus {
+      background-color: var(--secondary) !important;
+      color: var(--white) !important;
+    }
+
+    &:focus {
+      border: 2px solid var(--secondary) !important;
+      box-shadow: inset 0 0 0 2px var(--secondary), inset 0 0 0 4px var(--inverse-text-color) !important;
+    }
+  }
+
+  .gform_required_legend .gfield_required {
+    margin-right: 0.2rem !important;
+  }
+
+  --accent-color: var(--primary) !important;
+  --gf-ctrl-accent-color: var(--primary) !important;
+  --gf-color-in-ctrl-primary: var(--primary) !important;
+  --gf-field-pg-prog-bar-bg-color-blue: var(--stroke) !important;
+}
+
+.is-style-dark {
+  .gform_wrapper {
+    --gf-ctrl-label-color-primary: var(--inverse-text-color) !important;
+    --gf-ctrl-label-color-secondary: var(--inverse-text-color) !important;
+    --gf-ctrl-label-color-tertiary: var(--inverse-text-color) !important;
+    --gf-field-pg-prog-color: var(--inverse-text-color) !important;
+    --error-color: var(--grey-300) !important;
+    --gf-field-pg-prog-bar-bg-color-blue: var(--stroke);
+    --gf-field-section-border-color: var(--stroke);
+    --gf-color-out-ctrl-light: rgb(131, 123, 107, 0.4) !important;
+    --gf-ctrl-border-color-focus: var(--stroke) !important;
+    --gf-ctrl-outline-color-focus: var(--stroke) !important;
+    --gf-form-validation-heading-color: var(--grey-300) !important;
+    --gf-form-validation-summary-color: var(--grey-300) !important;
+    --gf-ctrl-desc-color-error: var(--grey-300) !important;
+    --gf-form-validation-border-color: var(--grey-300) !important;
+    --gf-ctrl-label-color-req: var(--grey-300) !important;
+    --gf-ctrl-desc-color: var(--grey-300) !important;
+    --gf-color-danger: var(--grey-300) !important;  
+
+    legend {
+      color: var(--inverse-text-color);
+    }
+
+    label {
+      color: var(--inverse-text-color);
+    }
+
+    .gform_confirmation_message {
+      color: var(--inverse-text-color);
+    }
+
+    input[type="submit"],
+    input[type="button"],
+    button[type="button"],
+    .button {
+      --gf-local-color: var(--primary) !important;
+      --gf-ctrl-btn-bg-color-primary: var(--inverse-text-color);
+      --gf-ctrl-btn-bg-color-hover-primary: var(--secondary);
+      --gf-ctrl-btn-color-hover-primary: var(--inverse-text-color) !important;
+      --gf-ctrl-btn-bg-color-focus-primary: var(--secondary);
+      --gf-ctrl-btn-border-color-focus-primary: var(--secondary) !important;
+      --gf-ctrl-outline-color-focus: transparent;
+
+      &:hover {
+        --gf-local-color: var(--inverse-text-color) !important;
+      }
+
+      &:focus {
+        --gf-local-color: var(--inverse-text-color) !important;
+      }
+    }
+
+    input[type="button"],
+    .button {
+      border: 2px solid var(--inverse-text-color) !important;
+
+      &:hover {
+        --gf-ctrl-btn-bg-color-hover-secondary: var(--secondary) !important;
+
+        border: 2px solid var(--secondary) !important;
+      }
+
+      &:focus {
+        --gf-ctrl-btn-border-color-focus-secondary: var(--secondary) !important;
+        --gf-local-border-width: 2px !important;
+        --gf-local-border-style: transparent !important;
+
+        border-color: var(--secondary) !important;
+        box-shadow: inset 0 0 0 2px var(--secondary), inset 0 0 0 4px var(--inverse-text-color) !important;
+        background-color: var(--secondary) !important;
+        color: var(--inverse-text-color) !important;
+      }
+    }
+
+    .gform-theme-button--secondary {
+      color: var(--inverse-text-color) !important;
+      border: 2px solid var(--inverse-text-color) !important;
+      background-color: transparent !important;
+
+      --gf-local-shadow: none !important;
+      --gf-ctrl-btn-bg-color-focus-secondary: var(--secondary) !important;
+
+      &:hover,
+      &:focus {
+        background-color: var(--secondary) !important;
+        color: var(--white) !important;
+      }
+
+      &:focus {
+        border: 2px solid var(--secondary) !important;
+        box-shadow: inset 0 0 0 2px var(--secondary), inset 0 0 0 4px var(--inverse-text-color) !important;
+      }
+    }
+  }
+}
+
+// sruvey form
+#gform_wrapper_8 {
+  .gfield_label {
+    margin-bottom: 1rem;
+    font-size: var(--p2-font-size);
+  }
+
+  .gsurvey-likert {
+    margin-left: -1.5%;
+
+    @include mq(xl) {
+      margin-left: -3%;
+    }
+
+    th {
+      padding-block-end: 2px;
+    }
+  }
+
+  --gf-survey-field-likert-row-odd-bg-color: transparent !important;
+
+  .survey {
+    &__description {
+      margin-top: -50px;
+      margin-right: 1rem;
+      display: flex;
+      justify-content: space-between;
+
+      span {
+        font-size: var(--p4-font-size);
+      }
+
+      @media (width >= 762px) {
+        margin-top: -30px;
+      }
+
+      @include mq(xl) {
+        margin-right: 3rem;
+      }
+    }
+  }
+}
+
+@media only screen and (width <= 761px), (device-width >= 768px) and (device-width <= 1024px) {
+  .gsurvey-likert {
+    display: table;
+    margin-top: 35px;
+
+    tr {
+      display: table-row !important;
+    }
+
+    td {
+      display: table-cell !important;
+      position: relative;
+      text-align: center !important;
+
+      &::after {
+        position: absolute;
+        display: block !important;
+        top: -43px !important;
+        left: -5px !important;
+      }
+    }
+  }
+}
+
+// summary field
+.gfield--type-html#field_2_25 {
+  table {
+    background-color: transparent !important;
+
+    tr {
+      // background-color: transparent !important;
+
+      ul {
+        margin-top: -15px !important;
+      }
+
+      li {
+        font-size: var(--p4-font-size) !important;
+      }
+    }
+
+    font {
+      font-family: var(--body-font-family) !important;
+      font-size: var(--p4-font-size) !important;
+      padding-left: 1rem;
+    }
+  }
+}
+

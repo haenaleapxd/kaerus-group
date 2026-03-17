@@ -1,0 +1,17 @@
+@use "../mixins" as *;
+
+.hero {
+  &-front-page {
+    .hero-full__foreground-body-contents {
+      align-items: center;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .title {
+      text-align: center;
+    }
+  }
+}

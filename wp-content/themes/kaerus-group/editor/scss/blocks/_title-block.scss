@@ -1,0 +1,12 @@
+.xd-title-block {
+  .xd-two-column__columns {
+    position: relative;
+
+    .xd-block-title {
+      &--left {
+        order: 2;
+        padding: 2rem 1rem;
+      }
+    }
+  }
+}

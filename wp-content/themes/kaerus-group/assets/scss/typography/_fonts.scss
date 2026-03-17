@@ -27,6 +27,7 @@
   * All heading classes.
   */
   .xd-font__display-1,
+  .is-style-display-1,
   .d1 {
     font-family: var(--d1-font-family);
     font-size: var(--d1-font-size);
@@ -44,6 +45,7 @@
   }
 
   .xd-font__display-2,
+  .is-style-display-2,
   .d2 {
     font-family: var(--d2-font-family);
     font-size: var(--d2-font-size);
@@ -269,6 +271,10 @@
     h6 + & {
       margin-top: 0;
     }
+  }
+
+  .xd-video__play-button .title-lg {
+    margin-top: 1.3125rem;
   }
 
   // Don't add margin top when heading follows semantic parent

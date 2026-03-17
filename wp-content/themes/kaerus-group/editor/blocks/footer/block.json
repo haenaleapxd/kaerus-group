@@ -3,7 +3,7 @@
   "title": "Footer",
   "attributes": {
     "footerType": {
-      "default": "footer-top-full"
+      "default": "footer-top-none"
     }
   },
   "supports": {

@@ -1,0 +1,64 @@
+{
+  "$schema": "../../../../../themes/kicks/editor/schema/block-schema.json",
+  "apiVersion": 2,
+  "name": "xd/title-block",
+  "title": "Title Block",
+  "description": "Two columns of title and subtitle with a separator line that wrap on mobile and tablet",
+  "category": "standard",
+  "icon": "gm/short-text",
+  "viewStyle": [
+    "block-styles/columns",
+    "block-styles/title-block"
+  ],
+  "editorStyle": [
+    "block-styles/columns",
+    "block-styles/title-block"
+  ],
+  "keywords": [
+    "columns",
+    "content",
+    "title",
+    "title block"
+  ],
+  "supports": {
+    "anchor": true,
+    "xd/padding": true,
+    "xd/padding-controls": true,
+    "xd/color-theme": true,
+    "custom": {
+      "register": true,
+      "innerBlocks": [
+        {
+          "wrap": {
+            "block": "container xd-columns--two",
+            "outer": "row",
+            "innerBlocks": "xd-columns__columns xd-two-column__columns col-10 offset-1"
+          },
+          "allowedBlocks": [
+            "core/heading",
+            "core/paragraph"
+          ],
+          "template": [
+            [
+              "core/heading",
+              {
+                "placeholder": "Title",
+                "level": 2,
+                "className": "xd-title-block-title xd-block-title--left offset-md-1 col-md-10 col-lg-12"
+              }
+            ],
+            [
+              "core/paragraph",
+              {
+                "placeholder": "Subtitle",
+                "className": "xd-title-block-title xd-block-title--right is-style-title-lg xd-title has-text-align-right"
+              }
+            ]
+          ],
+          "templateLock": true,
+          "orientation": "horizontal"
+        }
+      ]
+    }
+  }
+}
